@@ -1,21 +1,7 @@
 {
-  "name": "graffiti",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "Tim Ermilov <yamalight@gmail.com> (http://codezen.net)",
-  "license": "MIT",
-  "dependencies": {
-    "apollo-server-fastify": "^3.0.0-alpha.3",
-    "fastify": "^3.3.0",
-    "graphql": "^15.3.0",
-    "graphql-compose": "^7.19.4",
-    "graphql-compose-mongoose": "^8.0.2",
-    "lodash": "^4.17.20",
-    "mongoose": "^5.10.0"
-  }
+  "private": true,
+  "workspaces": [
+    "packages/graffiti",
+    "packages/example"
+  ]
 }

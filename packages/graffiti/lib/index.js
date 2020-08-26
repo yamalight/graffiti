@@ -1,10 +1,10 @@
+const { ApolloServer } = require('apollo-server-fastify');
 const fastify = require('fastify');
-const { ApolloServer, gql } = require('apollo-server-fastify');
-const { isConnected } = require('./mongoose');
 const { buildSchema } = require('./graphql');
+const { isConnected } = require('./mongoose');
 
-// build the server
-exports.build = async () => {
+// Build the server
+const build = async () => {
   const server = fastify({ logger: true });
   // wait for DB connection
   await isConnected;
@@ -16,16 +16,18 @@ exports.build = async () => {
   await server.register(gqlServer.createHandler());
   return server;
 };
+exports.build = build;
 
 // Run the server
 exports.start = async () => {
   try {
     // create graphql server
-    const instance = await exports.build();
+    const instance = await build();
     await instance.listen(3000);
-    instance.log.info(`server listening on ${instance.server.address().port}`);
+    // log port
+    instance.log.info(`Graffiti started on ${instance.server.address().port}`);
   } catch (err) {
-    console.error(err);
+    console.error('Error starting Graffiti server:', err);
     process.exit(1);
   }
 };
