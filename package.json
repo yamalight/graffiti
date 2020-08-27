@@ -2,6 +2,8 @@
   "private": true,
   "workspaces": [
     "packages/graffiti",
-    "packages/example"
+    "examples/basic",
+    "examples/relations",
+    "examples/relations-manual"
   ]
 }

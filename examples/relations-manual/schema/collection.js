@@ -3,10 +3,10 @@ exports.schema = {
   name: String,
 };
 
-exports.relations = ({ tcs }) => {
+exports.relations = ({ typedefs }) => {
   // define relation between collection and notes
-  tcs.collection.addRelation('notes', {
-    resolver: () => tcs.note.getResolver('findMany'),
+  typedefs.collection.addRelation('notes', {
+    resolver: () => typedefs.note.getResolver('findMany'),
     prepareArgs: {
       group: (source) => source._id,
     },

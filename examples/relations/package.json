@@ -1,0 +1,15 @@
+{
+  "name": "example-relations",
+  "version": "0.1.0",
+  "description": "",
+  "private": "true",
+  "scripts": {
+    "start": "graffiti"
+  },
+  "keywords": [],
+  "author": "Tim Ermilov <yamalight@gmail.com> (http://codezen.net)",
+  "license": "MIT",
+  "dependencies": {
+    "graffiti": "*"
+  }
+}
