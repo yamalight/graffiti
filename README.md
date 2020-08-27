@@ -20,6 +20,7 @@ Populate `./schema/note.js` inside your project:
 exports.schema = {
   name: String,
   body: String,
+  // NOTE: Mongoose model names will always be capitalized versions of your filenames
   group: { type: 'ObjectId', ref: 'Collection' },
 };
 ```
@@ -55,6 +56,7 @@ exports.schema = {
 // define custom relation that resolves notes
 exports.relations = ({ typedefs }) => {
   // define relation between collection and notes
+  // NOTE: typedefs will always be lowercased versions of your filenames
   typedefs.collection.addRelation('notes', {
     resolver: () => typedefs.note.getResolver('findMany'),
     prepareArgs: {
