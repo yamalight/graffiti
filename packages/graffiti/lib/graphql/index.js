@@ -1,7 +1,7 @@
 const { readdir } = require('fs/promises');
 const { schemaComposer } = require('graphql-compose');
-const capitalize = require('lodash/capitalize');
 const { join } = require('path');
+const { buildModel } = require('../mongoose');
 const { createGraphQLType } = require('./createType');
 const { createRelations } = require('./createRelations');
 
@@ -22,26 +22,31 @@ exports.buildSchema = async () => {
     // require given path
     const { schema, relations } = require(modulePath);
     // derive module name from filename
-    const name = capitalize(filename.replace(/\.js$/, ''));
+    const name = filename.replace(/\.js$/, '');
     // push info into models list
     models.push({ name, schema, relations });
   }
 
   // create new name->modelTC mapping
-  const tcs = {};
+  const typedefs = {};
+  // create new name->mongo model mappings
+  const mongoModels = {};
   // iterate over models and create graphql type defs
   for (let model of models) {
     // create key to store resulting model
     const key = model.name.toLowerCase();
+    // create mongo model
+    const mongoModel = buildModel({ schema: model.schema, name: model.name });
     // create new graphql typedef
-    const modelTc = createGraphQLType(model);
-    // store it
-    tcs[key] = modelTc;
+    const modelTc = createGraphQLType({ mongoModel, name: model.name });
+    // store model and typedef
+    typedefs[key] = modelTc;
+    mongoModels[key] = mongoModel;
   }
 
   // iterate over models and setup relation
   for (let model of models) {
-    await createRelations({ tcs, model });
+    await createRelations({ typedefs, model });
   }
 
   const graphqlSchema = schemaComposer.buildSchema();

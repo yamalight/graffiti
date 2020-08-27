@@ -1,4 +1,5 @@
 const { createConnection, Schema } = require('mongoose');
+const capitalize = require('lodash/capitalize');
 const { getConfig } = require('./config');
 
 // load config
@@ -22,6 +23,7 @@ exports.isConnected = new Promise((resolve) => db.once('open', resolve));
 
 exports.buildModel = ({ schema, name }) => {
   const mongooseSchema = new Schema(schema);
-  const Model = db.model(name, mongooseSchema);
+  const schemaName = capitalize(name);
+  const Model = db.model(schemaName, mongooseSchema);
   return Model;
 };

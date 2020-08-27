@@ -1,7 +1,7 @@
-exports.createRelations = async ({ tcs, model }) => {
+exports.createRelations = async ({ typedefs, model }) => {
   // if user has defined custom relations resolution - use it
   if (model.relations) {
-    await model.relations({ tcs });
+    await model.relations({ typedefs });
     return;
   }
 
@@ -22,8 +22,8 @@ exports.createRelations = async ({ tcs, model }) => {
         continue;
       }
 
-      const sourceTC = tcs[key];
-      const targetTC = tcs[target];
+      const sourceTC = typedefs[key];
+      const targetTC = typedefs[target];
 
       // remove existing field type
       sourceTC.removeField(prop);

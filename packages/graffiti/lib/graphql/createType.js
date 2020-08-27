@@ -1,12 +1,10 @@
 const { schemaComposer } = require('graphql-compose');
 const { composeWithMongoose } = require('graphql-compose-mongoose');
-const { buildModel } = require('../mongoose');
 
 // graphql-compose options
 const customizationOptions = {};
 
-exports.createGraphQLType = ({ schema, name }) => {
-  const mongoModel = buildModel({ schema, name });
+exports.createGraphQLType = ({ mongoModel, name }) => {
   const modelTC = composeWithMongoose(mongoModel, customizationOptions);
 
   // generate prefix based on model name
