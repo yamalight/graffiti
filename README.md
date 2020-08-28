@@ -1,6 +1,6 @@
-# Graffiti
+# Graffiti.js
 
-> Graffiti is a minimalistic GraphQL framework
+> Graffiti.js is a minimalistic GraphQL framework
 
 ⚠ This project is still under development ⚠
 
@@ -67,7 +67,7 @@ exports.relations = ({ typedefs }) => {
 };
 ```
 
-## Configuring Graffiti
+## Configuring Graffiti.js
 
 You can provide additional options to Graffiti using `graffiti.config.js` file in your project.  
 Currently, it allows you to set custom MongoDB URL, e.g.:

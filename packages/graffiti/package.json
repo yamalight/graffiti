@@ -1,7 +1,10 @@
 {
   "name": "graffiti",
   "version": "0.2.0",
-  "description": "",
+  "description": "Minimalistic GraphQL framework",
+  "repository": "yamalight/graffiti",
+  "bugs": "https://github.com/yamalight/graffiti/issues",
+  "homepage": "https://github.com/yamalight/graffiti",
   "bin": {
     "graffiti": "bin/graffiti.js"
   },
@@ -10,7 +13,12 @@
     "start": "./bin/graffiti.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "graphql",
+    "framework",
+    "mongo",
+    "mongoose"
+  ],
   "author": "Tim Ermilov <yamalight@gmail.com> (http://codezen.net)",
   "license": "MIT",
   "dependencies": {
@@ -21,5 +29,8 @@
     "graphql-compose-mongoose": "^8.0.2",
     "lodash": "^4.17.20",
     "mongoose": "^5.10.0"
+  },
+  "engines": {
+    "node": ">=14.8.0"
   }
 }
