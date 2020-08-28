@@ -7,6 +7,7 @@
     "examples/relations-manual"
   ],
   "scripts": {
-    "lint": "yarn workspace graffiti lint"
+    "lint": "yarn workspace graffiti lint",
+    "test": "yarn workspace graffiti test"
   }
 }

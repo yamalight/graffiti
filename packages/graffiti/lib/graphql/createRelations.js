@@ -25,6 +25,10 @@ exports.createRelations = async ({ typedefs, model }) => {
       const sourceTC = typedefs[key];
       const targetTC = typedefs[target];
 
+      if (!targetTC) {
+        throw new Error('Target type is not defined!');
+      }
+
       // remove existing field type
       sourceTC.removeField(prop);
       // add new field with same name as relation

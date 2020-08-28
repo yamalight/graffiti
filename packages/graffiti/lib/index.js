@@ -1,20 +1,29 @@
 const { ApolloServer } = require('apollo-server-fastify');
 const fastify = require('fastify');
 const { buildSchema } = require('./graphql');
-const { isConnected } = require('./mongoose');
+const { isConnected, db } = require('./mongoose');
 
 // Build the server
 const build = async () => {
   const server = fastify({ logger: true });
-  // wait for DB connection
-  await isConnected;
   // create graphql schema
   const schema = await buildSchema();
   // create graphql server
   const gqlServer = new ApolloServer({ schema });
-  // register graphql server in fastify
-  await server.register(gqlServer.createHandler());
-  return server;
+  await server
+    // init database, job queue & cleanup on close
+    .register(async (instance, opts, done) => {
+      // wait for DB connection
+      await isConnected;
+      instance.addHook('onClose', async (_instance, done) => {
+        db.close();
+        done();
+      });
+      done();
+    })
+    // register graphql server in fastify
+    .register(gqlServer.createHandler());
+  return { server, gqlServer };
 };
 exports.build = build;
 
@@ -22,7 +31,7 @@ exports.build = build;
 exports.start = async () => {
   try {
     // create graphql server
-    const instance = await build();
+    const { server: instance } = await build();
     await instance.listen(3000);
     // log port
     instance.log.info(`Graffiti started on ${instance.server.address().port}`);
