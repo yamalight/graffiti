@@ -86,3 +86,7 @@ The following issues are currently being explored and input from the community i
 - Way to change / remove default GraphQL methods [[#2](https://github.com/yamalight/graffiti/issues/2)]
 - Support for custom resolvers and GraphQL methods [[#3](https://github.com/yamalight/graffiti/issues/3)]
 - Production-ready deployment [[#4](https://github.com/yamalight/graffiti/issues/4)]
+
+## Special thanks
+
+A huge thank you to [Jay Phelps](https://github.com/jayphelps) for releasing the "graffiti" npm package name to me!
