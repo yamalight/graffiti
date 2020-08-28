@@ -1,3 +1,3 @@
 module.exports = {
-  mongoUrl: process.env.MONGO_URL || 'mongodb://localhost/graffiti-test',
+  mongoUrl: 'mongodb://localhost/graffiti-test',
 };
