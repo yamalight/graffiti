@@ -20,7 +20,7 @@ let mutate;
 const testNote = { name: 'test note', body: 'test note body' };
 
 // cleanup after we're done
-afterAll(() => server.close());
+afterAll(() => server?.close());
 
 beforeAll(async () => {
   // build new server

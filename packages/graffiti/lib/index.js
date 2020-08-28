@@ -1,20 +1,21 @@
 const { ApolloServer } = require('apollo-server-fastify');
 const fastify = require('fastify');
 const { buildSchema } = require('./graphql');
-const { isConnected, db } = require('./mongoose');
+const { connect } = require('./mongoose');
 
 // Build the server
 const build = async () => {
+  // connect to db
+  const db = await connect();
+  // create fastify instance
   const server = fastify({ logger: true });
   // create graphql schema
-  const schema = await buildSchema();
+  const schema = await buildSchema({ db });
   // create graphql server
   const gqlServer = new ApolloServer({ schema });
   await server
     // init database, job queue & cleanup on close
     .register(async (instance, opts, done) => {
-      // wait for DB connection
-      await isConnected;
       instance.addHook('onClose', async (_instance, done) => {
         db.close();
         done();

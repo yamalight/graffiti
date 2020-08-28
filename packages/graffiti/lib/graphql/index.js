@@ -5,7 +5,7 @@ const { buildModel } = require('../mongoose');
 const { createGraphQLType } = require('./createType');
 const { createRelations } = require('./createRelations');
 
-exports.buildSchema = async () => {
+exports.buildSchema = async ({ db }) => {
   // get current work folder
   const workFolder = process.cwd();
   // construct path to schema folder
@@ -36,7 +36,11 @@ exports.buildSchema = async () => {
     // create key to store resulting model
     const key = model.name.toLowerCase();
     // create mongo model
-    const mongoModel = buildModel({ schema: model.schema, name: model.name });
+    const mongoModel = buildModel({
+      db,
+      schema: model.schema,
+      name: model.name,
+    });
     // create new graphql typedef
     const modelTc = createGraphQLType({ mongoModel, name: model.name });
     // store model and typedef
