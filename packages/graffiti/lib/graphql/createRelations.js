@@ -11,7 +11,7 @@ exports.createRelations = async ({ typedefs, model }) => {
   // otherwise go through model properties and try to figure out
   // which fields need to be linked using basic resolvers
   const props = Object.keys(model.schema);
-  for (let prop of props) {
+  for (const prop of props) {
     const propDef = model.schema[prop];
     // find properties that use ObjectId as typedef
     if (propDef?.type === 'ObjectId') {

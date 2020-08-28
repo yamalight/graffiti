@@ -16,7 +16,7 @@ exports.buildSchema = async () => {
   // get list of files in schema folder
   const fileList = await readdir(schemaFolder);
   // iterate over files and create graphql type defs
-  for (let filename of fileList) {
+  for (const filename of fileList) {
     // create module path from filename
     const modulePath = join(schemaFolder, filename);
     // require given path
@@ -32,7 +32,7 @@ exports.buildSchema = async () => {
   // create new name->mongo model mappings
   const mongoModels = {};
   // iterate over models and create graphql type defs
-  for (let model of models) {
+  for (const model of models) {
     // create key to store resulting model
     const key = model.name.toLowerCase();
     // create mongo model
@@ -45,7 +45,7 @@ exports.buildSchema = async () => {
   }
 
   // iterate over models and setup relation
-  for (let model of models) {
+  for (const model of models) {
     await createRelations({ typedefs, model });
   }
 

@@ -5,5 +5,8 @@
     "examples/basic",
     "examples/relations",
     "examples/relations-manual"
-  ]
+  ],
+  "scripts": {
+    "lint": "yarn workspace graffiti lint"
+  }
 }

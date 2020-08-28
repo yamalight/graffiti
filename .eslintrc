@@ -1,0 +1,24 @@
+{
+  "extends": ["standard", "prettier"],
+  "plugins": ["prettier"],
+  "env": {
+    "node": true
+  },
+  "rules": {
+    "max-len": ["error", 120, 4],
+    "camelcase": "off",
+    "promise/param-names": "off",
+    "prefer-promise-reject-errors": "off",
+    "no-control-regex": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "lf",
+        "trailingComma": "es5",
+        "tabWidth": 2,
+        "singleQuote": true,
+        "semi": true
+      }
+    ]
+  }
+}
