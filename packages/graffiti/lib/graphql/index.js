@@ -20,11 +20,17 @@ exports.buildSchema = async ({ db }) => {
     // create module path from filename
     const modulePath = join(schemaFolder, filename);
     // require given path
-    const { schema, config, relations } = require(modulePath);
+    const {
+      schema,
+      config,
+      relations,
+      resolvers,
+      compose,
+    } = require(modulePath);
     // derive module name from filename
     const name = filename.replace(/\.js$/, '');
     // push info into models list
-    models.push({ name, config, schema, relations });
+    models.push({ name, config, schema, relations, resolvers, compose });
   }
 
   // create new name->modelTC mapping
@@ -41,12 +47,16 @@ exports.buildSchema = async ({ db }) => {
       schema: model.schema,
       name: model.name,
     });
-    // create new graphql typedef
+    // create new graphql typedef with default methods and resolvers
     const modelTc = createGraphQLType({
       mongoModel,
       config: model.config,
       name: model.name,
     });
+    // apply custom resolvers if needed
+    model.resolvers?.({ typedef: modelTc, model: mongoModel });
+    // compose custom methods if needed
+    model.compose?.({ schemaComposer, typedef: modelTc });
     // store model and typedef
     typedefs[key] = modelTc;
     mongoModels[key] = mongoModel;

@@ -59,8 +59,8 @@ module.exports = {
 The following issues are currently being explored and input from the community is appreciated:
 
 - Support for plugins (e.g. auth, next.js as front-end, etc.) [[#1](https://github.com/yamalight/graffiti/issues/1)]
-- Support for custom resolvers and GraphQL methods [[#3](https://github.com/yamalight/graffiti/issues/3)]
 - Production-ready deployment [[#4](https://github.com/yamalight/graffiti/issues/4)]
+- Development mode [[#7](https://github.com/yamalight/graffiti/issues/7)]
 
 ## Special thanks
 
