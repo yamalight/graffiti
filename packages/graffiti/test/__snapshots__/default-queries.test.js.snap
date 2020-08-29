@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Default queries setup Should fail to get all notes 1`] = `
+Array [
+  [ValidationError: Cannot query field "noteMany" on type "Query". Did you mean "noteById"?],
+]
+`;
+
+exports[`Default queries setup Should fail to update note 1`] = `
+Array [
+  [ValidationError: Cannot query field "noteUpdateById" on type "Mutation".],
+]
+`;

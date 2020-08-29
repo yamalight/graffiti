@@ -20,11 +20,11 @@ exports.buildSchema = async ({ db }) => {
     // create module path from filename
     const modulePath = join(schemaFolder, filename);
     // require given path
-    const { schema, relations } = require(modulePath);
+    const { schema, config, relations } = require(modulePath);
     // derive module name from filename
     const name = filename.replace(/\.js$/, '');
     // push info into models list
-    models.push({ name, schema, relations });
+    models.push({ name, config, schema, relations });
   }
 
   // create new name->modelTC mapping
@@ -42,7 +42,11 @@ exports.buildSchema = async ({ db }) => {
       name: model.name,
     });
     // create new graphql typedef
-    const modelTc = createGraphQLType({ mongoModel, name: model.name });
+    const modelTc = createGraphQLType({
+      mongoModel,
+      config: model.config,
+      name: model.name,
+    });
     // store model and typedef
     typedefs[key] = modelTc;
     mongoModels[key] = mongoModel;

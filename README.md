@@ -40,32 +40,8 @@ So far, we get:
 - Automatic creation of GraphQL APIs
 - Automatic relations between types (when using `ObjectId` as type)
 
-You can find more examples in `./examples` folder.
-
-### Manual relations
-
-When you need to manually specify relations between models, you can do so by specifying custom `relations` functions as exports from your schema definition file.  
-For example, if we'd want to be able to list all notes in given collection for example above, you'd do:
-
-```jsx
-// define notes collection
-exports.schema = {
-  name: String,
-};
-
-// define custom relation that resolves notes
-exports.relations = ({ typedefs }) => {
-  // define relation between collection and notes
-  // NOTE: typedefs will always be lowercased versions of your filenames
-  typedefs.collection.addRelation('notes', {
-    resolver: () => typedefs.note.getResolver('findMany'),
-    prepareArgs: {
-      group: (source) => source._id,
-    },
-    projection: { _id: 1 },
-  });
-};
-```
+You can find detailed documentation in [`./docs` folder](./docs/README.md).  
+You can also find more examples in `./examples` folder.
 
 ## Configuring Graffiti.js
 
@@ -83,7 +59,6 @@ module.exports = {
 The following issues are currently being explored and input from the community is appreciated:
 
 - Support for plugins (e.g. auth, next.js as front-end, etc.) [[#1](https://github.com/yamalight/graffiti/issues/1)]
-- Way to change / remove default GraphQL methods [[#2](https://github.com/yamalight/graffiti/issues/2)]
 - Support for custom resolvers and GraphQL methods [[#3](https://github.com/yamalight/graffiti/issues/3)]
 - Production-ready deployment [[#4](https://github.com/yamalight/graffiti/issues/4)]
 
