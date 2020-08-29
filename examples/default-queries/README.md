@@ -2,6 +2,7 @@
 
 This example shows how to control default queries and mutations created by Graffiti.
 Schema definition file `schema/note.js` is used to create basic GraphQL endpoint with Notes schema.
+Exported `exports.config` variable in that file defines what default queries and mutations should be disabled.
 
 ## How to use
 
