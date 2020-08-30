@@ -67,7 +67,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14
-          always-auth: true
+          registry-url: 'https://registry.npmjs.org'
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
