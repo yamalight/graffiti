@@ -67,6 +67,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14
+          always-auth: true
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -81,6 +82,7 @@ jobs:
       - name: install deps
         run: |
           yarn --frozen-lockfile
-      - run: yarn workspace graffiti publish --non-interactive
+      - name: publish to npm
+        run: yarn workspace graffiti publish --non-interactive
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
