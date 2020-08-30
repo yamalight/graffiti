@@ -1,6 +1,8 @@
-name: Test
+name: Release
 
-on: [push, pull_request]
+on:
+  release:
+    types: [published]
 
 jobs:
   lint:
@@ -24,7 +26,7 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: install deps
         run: |
-          yarn install --frozen-lockfile
+          yarn install
       - name: lint
         run: |
           yarn lint
@@ -49,7 +51,36 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: install
         run: |
-          yarn install --frozen-lockfile
+          yarn install
       - name: test
         run: |
           yarn test
+  publish-npm:
+    # only publish if not pre-release
+    if: '!github.event.release.prerelease'
+    # only publish if lint / test succeeded
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache node modules
+        uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: install deps
+        run: |
+          yarn --frozen-lockfile
+      - run: yarn workspace graffiti publish --non-interactive
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
