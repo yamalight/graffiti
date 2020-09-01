@@ -1,18 +1,30 @@
-const { ApolloServer } = require('apollo-server-fastify');
 const fastify = require('fastify');
+const GQL = require('fastify-gql');
 const { buildSchema } = require('./graphql');
 const { connect } = require('./mongoose');
+
+// detect if we're running in production
+const isProduction =
+  process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'production';
+// change default logging level based on production state
+const loggingLevel = isProduction ? 'error' : 'info';
+// pass logging settings to fastify config
+const fastifyConfig = {
+  logger: {
+    prettyPrint: !isProduction,
+    level: loggingLevel,
+  },
+};
 
 // Build the server
 const build = async () => {
   // connect to db
   const db = await connect();
   // create fastify instance
-  const server = fastify({ logger: true });
+  const server = fastify(fastifyConfig);
   // create graphql schema
   const schema = await buildSchema({ db });
-  // create graphql server
-  const gqlServer = new ApolloServer({ schema });
+  // construct fastify server
   await server
     // init database, job queue & cleanup on close
     .register(async (instance, opts, done) => {
@@ -22,9 +34,12 @@ const build = async () => {
       });
       done();
     })
-    // register graphql server in fastify
-    .register(gqlServer.createHandler());
-  return { server, gqlServer };
+    // register graphql with new schema server in fastify
+    .register(GQL, {
+      schema,
+      graphiql: 'playground',
+    });
+  return server;
 };
 exports.build = build;
 
@@ -32,7 +47,7 @@ exports.build = build;
 exports.start = async () => {
   try {
     // create graphql server
-    const { server: instance } = await build();
+    const instance = await build();
     await instance.listen(3000);
     // log port
     instance.log.info(`Graffiti started on ${instance.server.address().port}`);

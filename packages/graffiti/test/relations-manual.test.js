@@ -1,7 +1,7 @@
 /* eslint-env jest */
 const path = require('path');
 const { build } = require('../lib');
-const { createTestClient } = require('apollo-server-testing');
+const { executeGraphql } = require('./helpers/graphql');
 const {
   CREATE_COLLECTION_QUERY,
   CREATE_NOTE_QUERY,
@@ -25,9 +25,6 @@ jest.mock('../lib/config');
 
 // global vars to store server and test utils
 let server;
-let gqlServer;
-let query;
-let mutate;
 
 // test data
 const testNote = { name: 'test note', body: 'test note body' };
@@ -42,15 +39,10 @@ afterAll(() => server?.close());
 
 beforeAll(async () => {
   // build new server
-  const { server: fastifyServer, gqlServer: graphqlServer } = await build();
+  const fastifyServer = await build();
   server = fastifyServer;
-  gqlServer = graphqlServer;
   // wait for it to be ready
   await server.ready();
-  // create new test graphql client
-  const { query: testQuery, mutate: testMutate } = createTestClient(gqlServer);
-  query = testQuery;
-  mutate = testMutate;
 });
 
 describe('Manual relations setup', () => {
@@ -59,7 +51,8 @@ describe('Manual relations setup', () => {
       data: {
         collectionCreate: { record },
       },
-    } = await mutate({
+    } = await executeGraphql({
+      server,
       mutation: CREATE_COLLECTION_QUERY,
       variables: { name: testCollection.name },
     });
@@ -75,7 +68,8 @@ describe('Manual relations setup', () => {
       data: {
         noteCreate: { record },
       },
-    } = await mutate({
+    } = await executeGraphql({
+      server,
       mutation: CREATE_NOTE_QUERY,
       variables: {
         name: testNote.name,
@@ -96,7 +90,8 @@ describe('Manual relations setup', () => {
   test('Should get all notes', async () => {
     const {
       data: { noteMany: items },
-    } = await query({
+    } = await executeGraphql({
+      server,
       query: GET_NOTES_QUERY,
     });
 
@@ -110,7 +105,8 @@ describe('Manual relations setup', () => {
   test('Should get collection with notes', async () => {
     const {
       data: { collectionMany: items },
-    } = await query({
+    } = await executeGraphql({
+      server,
       query: GET_COLLECTIONS_QUERY,
     });
 

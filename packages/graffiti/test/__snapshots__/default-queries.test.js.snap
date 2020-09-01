@@ -2,12 +2,28 @@
 
 exports[`Default queries setup Should fail to get all notes 1`] = `
 Array [
-  [ValidationError: Cannot query field "noteMany" on type "Query". Did you mean "noteById"?],
+  Object {
+    "locations": Array [
+      Object {
+        "column": 3,
+        "line": 3,
+      },
+    ],
+    "message": "Cannot query field \\"noteMany\\" on type \\"Query\\". Did you mean \\"noteById\\"?",
+  },
 ]
 `;
 
 exports[`Default queries setup Should fail to update note 1`] = `
 Array [
-  [ValidationError: Cannot query field "noteUpdateById" on type "Mutation".],
+  Object {
+    "locations": Array [
+      Object {
+        "column": 3,
+        "line": 3,
+      },
+    ],
+    "message": "Cannot query field \\"noteUpdateById\\" on type \\"Mutation\\".",
+  },
 ]
 `;

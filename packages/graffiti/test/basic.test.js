@@ -1,7 +1,7 @@
 /* eslint-env jest */
 const path = require('path');
 const { build } = require('../lib');
-const { createTestClient } = require('apollo-server-testing');
+const { executeGraphql } = require('./helpers/graphql');
 const {
   CREATE_NOTE_QUERY,
   GET_NOTES_QUERY,
@@ -16,9 +16,6 @@ jest.mock('../lib/config');
 
 // global vars to store server and test utils
 let server;
-let gqlServer;
-let query;
-let mutate;
 
 // test data
 const testNote = { name: 'test note', body: 'test note body' };
@@ -28,15 +25,10 @@ afterAll(() => server?.close());
 
 beforeAll(async () => {
   // build new server
-  const { server: fastifyServer, gqlServer: graphqlServer } = await build();
+  const fastifyServer = await build();
   server = fastifyServer;
-  gqlServer = graphqlServer;
   // wait for it to be ready
   await server.ready();
-  // create new test graphql client
-  const { query: testQuery, mutate: testMutate } = createTestClient(gqlServer);
-  query = testQuery;
-  mutate = testMutate;
 });
 
 describe('Basic setup', () => {
@@ -45,7 +37,8 @@ describe('Basic setup', () => {
       data: {
         noteCreate: { record },
       },
-    } = await mutate({
+    } = await executeGraphql({
+      server,
       mutation: CREATE_NOTE_QUERY,
       variables: { name: testNote.name, body: testNote.body },
     });
@@ -57,7 +50,8 @@ describe('Basic setup', () => {
   test('Should get all notes', async () => {
     const {
       data: { noteMany: items },
-    } = await query({
+    } = await executeGraphql({
+      server,
       query: GET_NOTES_QUERY,
     });
 

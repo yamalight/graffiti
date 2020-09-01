@@ -1,7 +1,7 @@
 /* eslint-env jest */
 const path = require('path');
 const { build } = require('../lib');
-const { createTestClient } = require('apollo-server-testing');
+const { executeGraphql } = require('./helpers/graphql');
 const {
   CREATE_NOTE_QUERY,
   UPDATE_NOTE_QUERY,
@@ -25,9 +25,6 @@ jest.mock('../lib/config');
 
 // global vars to store server and test utils
 let server;
-let gqlServer;
-let query;
-let mutate;
 
 // test data
 const testNote = { name: 'test note', body: 'test note body' };
@@ -40,15 +37,10 @@ afterAll(() => server?.close());
 
 beforeAll(async () => {
   // build new server
-  const { server: fastifyServer, gqlServer: graphqlServer } = await build();
+  const fastifyServer = await build();
   server = fastifyServer;
-  gqlServer = graphqlServer;
   // wait for it to be ready
   await server.ready();
-  // create new test graphql client
-  const { query: testQuery, mutate: testMutate } = createTestClient(gqlServer);
-  query = testQuery;
-  mutate = testMutate;
 });
 
 describe('Default queries setup', () => {
@@ -57,7 +49,8 @@ describe('Default queries setup', () => {
       data: {
         noteCreate: { record },
       },
-    } = await mutate({
+    } = await executeGraphql({
+      server,
       mutation: CREATE_NOTE_QUERY,
       variables: { name: testNote.name, body: testNote.body },
     });
@@ -72,7 +65,8 @@ describe('Default queries setup', () => {
   test('Should get note by id', async () => {
     const {
       data: { noteById: item },
-    } = await query({
+    } = await executeGraphql({
+      server,
       query: GET_NOTE_QUERY,
       variables: { id: createdNote._id },
     });
@@ -82,7 +76,8 @@ describe('Default queries setup', () => {
   });
 
   test('Should fail to update note', async () => {
-    const { errors } = await mutate({
+    const { errors } = await executeGraphql({
+      server,
       mutation: UPDATE_NOTE_QUERY,
       variables: { id: createdNote._id, name: 'up', body: 'fail' },
     });
@@ -91,7 +86,8 @@ describe('Default queries setup', () => {
   });
 
   test('Should fail to get all notes', async () => {
-    const { errors } = await query({
+    const { errors } = await executeGraphql({
+      server,
       query: GET_NOTES_QUERY,
     });
 
