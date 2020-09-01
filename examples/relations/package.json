@@ -4,7 +4,8 @@
   "description": "",
   "private": "true",
   "scripts": {
-    "start": "graffiti"
+    "start": "graffiti",
+    "develop": "graffiti dev"
   },
   "keywords": [],
   "author": "Tim Ermilov <yamalight@gmail.com> (http://codezen.net)",

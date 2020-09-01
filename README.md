@@ -33,35 +33,25 @@ exports.schema = {
 };
 ```
 
-and then just run `graffiti` and go to `http://localhost:3000/graphql`
+and then just run `graffiti dev` and go to `http://localhost:3000/playground`
 
 So far, we get:
 
 - Automatic creation of GraphQL APIs
 - Automatic relations between types (when using `ObjectId` as type)
+- Access to GraphQL playground (in development mode)
+- Way to add manual resolvers or GraphQL methods
+- Way to setup manual complex relations
+- Automatic app reload on schema changes
 
 You can find detailed documentation in [`./docs` folder](./docs/README.md).  
-You can also find more examples in `./examples` folder.
-
-## Configuring Graffiti.js
-
-You can provide additional options to Graffiti using `graffiti.config.js` file in your project.  
-Currently, it allows you to set custom MongoDB URL, server port and host e.g.:
-
-```js
-module.exports = {
-  mongoUrl: 'mongodb://localhost/graffiti-test', // optional, defaults to "mongodb://localhost/graffiti"
-  port: 3000, // optional, defaults to 3000
-  host: '0.0.0.0', // optional, defaults to 0.0.0.0
-};
-```
+You can also find more examples in [`./examples` folder](./examples).
 
 ## Future directions
 
 The following issues are currently being explored and input from the community is appreciated:
 
 - Support for plugins (e.g. auth, next.js as front-end, etc.) [[#1](https://github.com/yamalight/graffiti/issues/1)]
-- Development mode [[#7](https://github.com/yamalight/graffiti/issues/7)]
 
 ## Special thanks
 
