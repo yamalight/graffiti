@@ -3,6 +3,8 @@ const { join } = require('path');
 
 const defaultConfig = {
   mongoUrl: 'mongodb://localhost/graffiti',
+  port: 3000,
+  host: '0.0.0.0',
 };
 
 exports.getConfig = () => {

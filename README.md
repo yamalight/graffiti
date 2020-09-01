@@ -46,11 +46,13 @@ You can also find more examples in `./examples` folder.
 ## Configuring Graffiti.js
 
 You can provide additional options to Graffiti using `graffiti.config.js` file in your project.  
-Currently, it allows you to set custom MongoDB URL, e.g.:
+Currently, it allows you to set custom MongoDB URL, server port and host e.g.:
 
 ```js
 module.exports = {
-  mongoUrl: 'mongodb://localhost/graffiti-test',
+  mongoUrl: 'mongodb://localhost/graffiti-test', // optional, defaults to "mongodb://localhost/graffiti"
+  port: 3000, // optional, defaults to 3000
+  host: '0.0.0.0', // optional, defaults to 0.0.0.0
 };
 ```
 
@@ -59,7 +61,6 @@ module.exports = {
 The following issues are currently being explored and input from the community is appreciated:
 
 - Support for plugins (e.g. auth, next.js as front-end, etc.) [[#1](https://github.com/yamalight/graffiti/issues/1)]
-- Production-ready deployment [[#4](https://github.com/yamalight/graffiti/issues/4)]
 - Development mode [[#7](https://github.com/yamalight/graffiti/issues/7)]
 
 ## Special thanks

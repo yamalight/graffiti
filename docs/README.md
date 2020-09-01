@@ -3,7 +3,11 @@
 Extended docs will be here.
 See basics in [main README.md](../README.md).
 
-### Manual relations
+## GraphQL Playground
+
+GraphQL playground only works in dev mode and is accessible at `http://localhost:3000/playground` URL (if you are running with default config).
+
+## Manual relations
 
 When you need to manually specify relations between models, you can do so by specifying custom `relations` functions as exports from your schema definition file.  
 For example, if we'd want to be able to list all notes in given collection for example above, you'd do:
@@ -108,5 +112,26 @@ exports.compose = ({ schemaComposer, typedef }) => {
   schemaComposer.Query.addFields({
     noteCustomById: typedef.getResolver('customGetNoteById'),
   });
+};
+```
+
+## Configuring Graffiti.js
+
+Setting `NODE_ENV=production` before running your Graffiti app will ensure all required changes for production are applied.
+
+You can provide additional options to Graffiti using `graffiti.config.js` file in your project.  
+Supported fields are described below:
+
+```js
+module.exports = {
+  // MongoDB URL used by Mongoose for connection to DB
+  // optional, defaults to "mongodb://localhost/graffiti"
+  mongoUrl: 'mongodb://localhost/graffiti-test',
+  // Port for Fastify server to listen on
+  // optional, defaults to 3000
+  port: 3000,
+  // Host for Fastify server to listen on
+  // optional, defaults to 0.0.0.0
+  host: '0.0.0.0',
 };
 ```
