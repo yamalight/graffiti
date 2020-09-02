@@ -3,6 +3,8 @@
   "workspaces": [
     "packages/graffiti",
     "examples/basic",
+    "examples/custom-resolver",
+    "examples/default-queries",
     "examples/relations",
     "examples/relations-manual"
   ],
