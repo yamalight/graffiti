@@ -27,7 +27,21 @@ const build = async () => {
   // load plugins
   const plugins = await loadPlugins();
   // create graphql schema
-  const schema = await buildSchema({ db });
+  const {
+    graphqlSchema,
+    schemaComposer,
+    typedefs,
+    mongoModels,
+  } = await buildSchema({
+    db,
+    plugins,
+  });
+  // expose newly constructed typedefs, models and composer using fastify
+  server.decorate('graffiti', {
+    schemaComposer,
+    typedefs,
+    mongoModels,
+  });
   // construct fastify server
   // database cleanup on close
   await server.register(async (instance, opts, done) => {
@@ -41,7 +55,7 @@ const build = async () => {
   await Promise.all(plugins.map((plugin) => plugin.setup?.({ server })));
   // register graphql with new schema server in fastify
   await server.register(GQL, {
-    schema,
+    schema: graphqlSchema,
     // only enable playground in dev mode
     graphiql: isProduction ? false : 'playground',
   });

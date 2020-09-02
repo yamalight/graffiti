@@ -5,7 +5,7 @@ const { buildModel } = require('../mongoose');
 const { createGraphQLType } = require('./createType');
 const { createRelations } = require('./createRelations');
 
-exports.buildSchema = async ({ db }) => {
+exports.buildSchema = async ({ db, plugins }) => {
   // get current work folder
   const workFolder = process.cwd();
   // construct path to schema folder
@@ -31,6 +31,28 @@ exports.buildSchema = async ({ db }) => {
     const name = filename.replace(/\.js$/, '');
     // push info into models list
     models.push({ name, config, schema, relations, resolvers, compose });
+  }
+
+  // iterate over plugins and create graphql type defs if given
+  for (const plugin of plugins) {
+    // if plugin doesn't export schemas - just skip it
+    if (!plugin.schemas?.length) {
+      continue;
+    }
+    // iterate over schemas exported from plugin
+    for (const pluginSchema of plugin.schemas) {
+      // get data from plugin schema
+      const {
+        name,
+        schema,
+        config,
+        relations,
+        resolvers,
+        compose,
+      } = pluginSchema;
+      // push info into models list
+      models.push({ name, config, schema, relations, resolvers, compose });
+    }
   }
 
   // create new name->modelTC mapping
@@ -68,5 +90,5 @@ exports.buildSchema = async ({ db }) => {
   }
 
   const graphqlSchema = schemaComposer.buildSchema();
-  return graphqlSchema;
+  return { graphqlSchema, schemaComposer, typedefs, mongoModels };
 };
