@@ -29,13 +29,11 @@
     "graphql-compose": "^7.19.4",
     "graphql-compose-mongoose": "^8.0.2",
     "lodash": "^4.17.20",
-    "mongoose": "^5.10.0"
+    "mongoose": "^5.10.0",
+    "nodemon": "^2.0.4",
+    "pino-pretty": "^4.2.0"
   },
   "engines": {
     "node": ">=14.8.0"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.4",
-    "pino-pretty": "^4.2.0"
   }
 }
