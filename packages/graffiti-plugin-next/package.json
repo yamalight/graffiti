@@ -1,0 +1,29 @@
+{
+  "name": "graffiti-plugin-next",
+  "version": "0.1.0",
+  "description": "Next.js plugin for Graffiti framework",
+  "repository": "yamalight/graffiti",
+  "bugs": "https://github.com/yamalight/graffiti/issues",
+  "homepage": "https://github.com/yamalight/graffiti",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint lib/ test/",
+    "test": "NODE_ENV=test jest"
+  },
+  "keywords": [
+    "graffiti",
+    "graffiti-plugin",
+    "next",
+    "next.js"
+  ],
+  "author": "Tim Ermilov <yamalight@gmail.com> (http://codezen.net)",
+  "license": "MIT",
+  "dependencies": {
+    "next": "^9.5.3",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "engines": {
+    "node": ">=14.8.0"
+  }
+}

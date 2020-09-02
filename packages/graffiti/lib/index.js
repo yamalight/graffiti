@@ -1,6 +1,7 @@
 const fastify = require('fastify');
 const GQL = require('fastify-gql');
 const { buildSchema } = require('./graphql');
+const { loadPlugins } = require('./plugins');
 const { connect } = require('./mongoose');
 const { getConfig } = require('./config');
 
@@ -23,24 +24,27 @@ const build = async () => {
   const db = await connect();
   // create fastify instance
   const server = fastify(fastifyConfig);
+  // load plugins
+  const plugins = await loadPlugins();
   // create graphql schema
   const schema = await buildSchema({ db });
   // construct fastify server
-  await server
-    // init database, job queue & cleanup on close
-    .register(async (instance, opts, done) => {
-      instance.addHook('onClose', async (_instance, done) => {
-        db.close();
-        done();
-      });
+  // database cleanup on close
+  await server.register(async (instance, opts, done) => {
+    instance.addHook('onClose', async (_instance, done) => {
+      db.close();
       done();
-    })
-    // register graphql with new schema server in fastify
-    .register(GQL, {
-      schema,
-      // only enable playground in dev mode
-      graphiql: isProduction ? false : 'playground',
     });
+    done();
+  });
+  // apply plugins to fastify
+  await Promise.all(plugins.map((plugin) => plugin.setup?.({ server })));
+  // register graphql with new schema server in fastify
+  await server.register(GQL, {
+    schema,
+    // only enable playground in dev mode
+    graphiql: isProduction ? false : 'playground',
+  });
   return server;
 };
 exports.build = build;

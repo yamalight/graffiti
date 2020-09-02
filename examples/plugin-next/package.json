@@ -1,0 +1,19 @@
+{
+  "name": "example-plugin-next",
+  "version": "0.1.0",
+  "description": "",
+  "private": "true",
+  "scripts": {
+    "start": "graffiti",
+    "develop": "graffiti dev"
+  },
+  "keywords": [],
+  "author": "Tim Ermilov <yamalight@gmail.com> (http://codezen.net)",
+  "license": "MIT",
+  "dependencies": {
+    "graffiti": "*",
+    "graffiti-plugin-next": "*",
+    "graphql": "^15.3.0",
+    "urql": "^1.10.0"
+  }
+}
