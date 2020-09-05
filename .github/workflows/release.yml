@@ -32,6 +32,7 @@ jobs:
           yarn lint
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 14
