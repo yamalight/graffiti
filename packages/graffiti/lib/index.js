@@ -72,7 +72,7 @@ exports.start = async () => {
     const instance = await build();
     await instance.listen(config.port ?? 3000, config.host ?? '0.0.0.0');
     // log port
-    instance.log.info(`Graffiti started on ${instance.server.address().port}`);
+    console.log(`Graffiti started on ${instance.server.address().port}`);
   } catch (err) {
     console.error('Error starting Graffiti server:', err);
     process.exit(1);

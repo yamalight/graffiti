@@ -54,7 +54,7 @@ jobs:
           yarn install
       - name: test
         run: |
-          yarn test
+          yarn test-ci
   publish-npm:
     # only publish if not pre-release
     if: '!github.event.release.prerelease'

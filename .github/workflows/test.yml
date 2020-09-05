@@ -52,4 +52,4 @@ jobs:
           yarn install --frozen-lockfile
       - name: test
         run: |
-          yarn test
+          yarn test-ci

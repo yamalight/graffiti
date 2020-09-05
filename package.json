@@ -6,7 +6,8 @@
   ],
   "scripts": {
     "lint": "yarn workspace graffiti lint",
-    "test": "yarn workspace graffiti test"
+    "test": "yarn workspace graffiti test",
+    "test-ci": "yarn workspace graffiti test --silent"
   },
   "devDependencies": {
     "eslint": "^7.7.0",

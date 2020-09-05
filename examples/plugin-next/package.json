@@ -4,7 +4,7 @@
   "description": "",
   "private": "true",
   "scripts": {
-    "start": "graffiti",
+    "start": "NODE_ENV=production graffiti",
     "develop": "graffiti dev"
   },
   "keywords": [],

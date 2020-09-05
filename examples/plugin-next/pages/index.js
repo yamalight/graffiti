@@ -19,13 +19,12 @@ export default function HomePage({ notes }) {
 }
 
 export const getStaticProps = async () => {
-  const {
-    data: { noteMany },
-  } = await client.query(notesQuery).toPromise();
+  const result = await client.query(notesQuery).toPromise();
+  const notes = result?.data?.noteMany ?? [];
 
   return {
     props: {
-      notes: noteMany,
+      notes,
     },
   };
 };
