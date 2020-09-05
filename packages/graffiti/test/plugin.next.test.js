@@ -18,8 +18,8 @@ jest.spyOn(process, 'cwd').mockImplementation(() => testPath);
 // mock config to use in-mem mongo server
 jest.mock('../lib/config');
 
-// increase timeout to 10s (for nextjs builds)
-jest.setTimeout(10000);
+// increase timeout to 30s (for nextjs builds)
+jest.setTimeout(30000);
 
 // global vars to store server and test utils
 let server;
