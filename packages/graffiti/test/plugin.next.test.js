@@ -14,7 +14,6 @@ const testPath = path.join(
   'plugin-next'
 );
 jest.spyOn(process, 'cwd').mockImplementation(() => testPath);
-console.log(testPath);
 
 // mock config to use in-mem mongo server
 jest.mock('../lib/config');

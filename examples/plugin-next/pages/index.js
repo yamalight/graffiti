@@ -18,7 +18,7 @@ export default function HomePage({ notes }) {
   );
 }
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const result = await client.query(notesQuery).toPromise();
   const notes = result?.data?.noteMany ?? [];
 

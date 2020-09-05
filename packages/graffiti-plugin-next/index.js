@@ -1,5 +1,5 @@
 const Next = require('next');
-const nextBuild = require('next/dist/build').default;
+const { exec } = require('./util');
 
 const dev =
   process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test';
@@ -7,11 +7,6 @@ const dev =
 const fastifyPlugin = async (fastify, opts, next) => {
   // get workdir to use as next project folder
   const workDir = process.cwd();
-
-  // if running in prod (or in tests) - build next files
-  if (!dev) {
-    await nextBuild(workDir);
-  }
 
   // init next app
   const app = Next({ dev, quiet: !dev, dir: workDir });
@@ -43,5 +38,14 @@ const fastifyPlugin = async (fastify, opts, next) => {
 };
 
 exports.setup = async ({ server }) => {
+  // if running in prod (or in tests) - build next files
+  if (!dev) {
+    // get workdir to use as next project folder
+    const workDir = process.cwd();
+    // run "next build"
+    await exec('npx', ['next', 'build', workDir]);
+  }
+
   await server.register(fastifyPlugin);
+  return server;
 };
