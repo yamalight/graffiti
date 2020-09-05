@@ -1,6 +1,6 @@
 {
   "name": "graffiti-plugin-next",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Next.js plugin for Graffiti framework",
   "repository": "yamalight/graffiti",
   "bugs": "https://github.com/yamalight/graffiti/issues",
