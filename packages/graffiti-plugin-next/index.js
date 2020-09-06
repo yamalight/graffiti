@@ -37,15 +37,20 @@ const fastifyPlugin = async (fastify, opts, next) => {
   next();
 };
 
-exports.setup = async ({ server }) => {
-  // if running in prod (or in tests) - build next files
-  if (!dev) {
-    // get workdir to use as next project folder
-    const workDir = process.cwd();
-    // run "next build"
-    await exec('npx', ['next', 'build', workDir]);
-  }
+module.exports = ({ autobuild = false } = {}) => {
+  return {
+    setup: async ({ server }) => {
+      // if running in prod (or in tests) & autobuild is enabled
+      // - execute next build
+      if (!dev && autobuild) {
+        // get workdir to use as next project folder
+        const workDir = process.cwd();
+        // run "next build"
+        await exec('npx', ['next', 'build', workDir]);
+      }
 
-  await server.register(fastifyPlugin);
-  return server;
+      await server.register(fastifyPlugin);
+      return server;
+    },
+  };
 };
