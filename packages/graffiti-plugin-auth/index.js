@@ -106,7 +106,8 @@ module.exports = ({
 
       // get token either from cookies or from headers
       const token =
-        request.cookies['graffiti-token'] ?? request.raw.headers.auth;
+        request.cookies['graffiti-token'] ??
+        request.raw.headers.authorization?.replace('Bearer ', '');
       if (!token) {
         throw new Error('Missing token header');
       }

@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Auth plugin setup Should not create new note without auth 1`] = `undefined`;
+
+exports[`Auth plugin setup Should not get notes without token 1`] = `undefined`;

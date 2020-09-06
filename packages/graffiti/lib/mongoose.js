@@ -9,6 +9,7 @@ exports.connect = async () => {
   // connect to given URL
   const db = createConnection(config.mongoUrl, {
     useNewUrlParser: true,
+    useCreateIndex: true,
     useUnifiedTopology: true,
   });
 

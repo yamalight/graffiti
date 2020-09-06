@@ -38,7 +38,7 @@ beforeAll(async () => {
   await server.ready();
 });
 
-describe('Basic setup', () => {
+describe('Next.js plugin setup', () => {
   test('Should create new note', async () => {
     const {
       data: {
@@ -60,7 +60,6 @@ describe('Basic setup', () => {
       url: '/',
     });
 
-    // cleanup body from build timestamps
     expect(res.body).toContain(
       '<div id="__next"><div><div>Welcome to Next.js &amp; Graffiti!</div><pre>[]</pre></div></div>'
     );
