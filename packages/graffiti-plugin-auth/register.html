@@ -1,0 +1,61 @@
+<html>
+  <head>
+    <title>Graffiti DevMode - Register</title>
+  </head>
+  <body>
+    <form id="registerForm">
+      <div>
+        <label for="email">Email: </label>
+        <input type="text" name="email" id="email" required />
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required />
+      </div>
+      <div>
+        <input type="submit" value="Register" />
+      </div>
+    </form>
+    <div id="error" style="color: red; font-weight: bold"></div>
+    <script>
+      const form = document.querySelector('#registerForm');
+      const email = document.querySelector('#email');
+      const pass = document.querySelector('#password');
+      const error = document.querySelector('#error');
+      form.onsubmit = async (e) => {
+        e.preventDefault();
+        const emailVal = email.value;
+        const passVal = pass.value;
+        const data = { email: emailVal, password: passVal };
+        // get response
+        const res = await fetch('/api/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+        // if it's not OK or status is not 200
+        // display error with body
+        if (!res.ok || res.status !== 200) {
+          const body = await res.text();
+          error.innerHTML = `Error registering! ${body}`;
+          return;
+        }
+        // otherwise - get json
+        const result = await res.json();
+        // if it contains error
+        // display it
+        if (result.error) {
+          error.innerHTML = `Error registering! ${result.error}`;
+          return;
+        }
+        // otherwise - redirect to playground
+        window.location.href = window.location.href.replace(
+          'dev/register',
+          'playground'
+        );
+      };
+    </script>
+  </body>
+</html>

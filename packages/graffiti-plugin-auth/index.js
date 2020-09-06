@@ -1,8 +1,26 @@
+const fs = require('fs');
+const path = require('path');
 const fp = require('fastify-plugin');
 const jwt = require('fastify-jwt');
 const auth = require('fastify-auth');
 const cookie = require('fastify-cookie');
 const bcrypt = require('bcrypt');
+
+// whether we're running in dev mode
+const dev =
+  process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test';
+
+// html for login / register pages
+let loginPage = '';
+let registerPage = '';
+
+// only load real html if we're running in dev mode
+if (dev) {
+  loginPage = fs.readFileSync(path.join(__dirname, 'login.html')).toString();
+  registerPage = fs
+    .readFileSync(path.join(__dirname, 'register.html'))
+    .toString();
+}
 
 // Export user schema that is used to create
 // User model in DB and GraphQL User type
@@ -46,10 +64,13 @@ const schemas = [
 module.exports = ({
   secret,
   saltRounds = 10,
-  domain = 'localhost',
-  httpOnly = true,
-  secure = false,
-  sameSite = false,
+  cookie: {
+    domain = 'localhost',
+    httpOnly = true,
+    secure = false,
+    sameSite = false,
+  } = {},
+  permitPaths = [],
 }) => {
   const hashPass = async (password) => {
     const salt = await bcrypt.genSalt(saltRounds);
@@ -59,6 +80,7 @@ module.exports = ({
 
   // create /register & /login REST endpoints as a fastify plugin
   const fastifyPlugin = fp(async (fastify, opts, next) => {
+    // register required fastify plugins
     await fastify
       .register(jwt, { secret: `jwt-${secret}-graffiti-auth` })
       .register(auth)
@@ -66,13 +88,23 @@ module.exports = ({
         secret: `cookies-${secret}-graffiti-auth`,
       });
 
-    const permitList = ['/api/register', '/api/login'];
+    // permitted URLs list
+    const permitList = ['/api/register', '/api/login'].concat(permitPaths);
 
+    // if running in dev mode - add login / register pages
+    if (dev) {
+      permitList.push('/dev/login');
+      permitList.push('/dev/register');
+    }
+
+    // decorate server with verification method
     fastify.decorate('verifyJWT', async (request, reply) => {
+      // if URL is permitted - return true
       if (permitList.includes(request.url)) {
         return true;
       }
 
+      // get token either from cookies or from headers
       const token =
         request.cookies['graffiti-token'] ?? request.raw.headers.auth;
       if (!token) {
@@ -80,8 +112,10 @@ module.exports = ({
       }
 
       try {
+        // decode JWT token
         const decoded = await fastify.jwt.verify(token);
 
+        // get user model from server and find given user
         const { user: User } = fastify.graffiti.mongoModels;
         const user = await User.findById(decoded._id).lean();
 
@@ -99,6 +133,7 @@ module.exports = ({
       }
     });
 
+    // add pre-handler hook to all URLs to enforce auth everywhere
     fastify.addHook('preHandler', fastify.auth([fastify.verifyJWT]));
 
     // login endpoint
@@ -143,15 +178,28 @@ module.exports = ({
           .setCookie('graffiti-token', token, {
             domain,
             path: '/',
-            secure: true, // send cookie over HTTPS only
-            httpOnly: true,
-            sameSite: true, // alternative CSRF protection
+            secure,
+            httpOnly,
+            sameSite,
           })
           .send({ token, user: result });
       } catch (error) {
         reply.send({ error: error.toString() });
       }
     });
+
+    // if running in dev mode
+    // register additional utility pages
+    if (dev) {
+      // basic login page
+      fastify.get('/dev/login', (req, reply) => {
+        reply.type('text/html').send(loginPage);
+      });
+      // basic register page
+      fastify.get('/dev/register', (req, reply) => {
+        reply.type('text/html').send(registerPage);
+      });
+    }
 
     next();
   });
