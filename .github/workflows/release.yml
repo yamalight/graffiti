@@ -83,7 +83,24 @@ jobs:
       - name: install deps
         run: |
           yarn --frozen-lockfile
-      - name: publish to npm
-        run: yarn workspace graffiti publish --non-interactive
+      - name: publish graffiti to npm if newer version
+        run: |
+          export CURRENT_VERSION=$(node -pe "require('./packages/graffiti/package.json').version")
+          export PUBLISHED_VERSION=$(yarn info graffiti | grep latest | sed "s/[( +?)latest:,\',]//g")
+          if [ "$CURRENT_VERSION" != "$PUBLISHED_VERSION" ]; then yarn workspace graffiti publish --non-interactive; fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: publish graffiti-plugin-next to npm if newer version
+        run: |
+          export CURRENT_VERSION=$(node -pe "require('./packages/graffiti-plugin-next/package.json').version")
+          export PUBLISHED_VERSION=$(yarn info graffiti-plugin-next | grep latest | sed "s/[( +?)latest:,\',]//g")
+          if [ "$CURRENT_VERSION" != "$PUBLISHED_VERSION" ]; then yarn workspace graffiti-plugin-next publish --non-interactive; fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: publish graffiti-plugin-auth to npm if newer version
+        run: |
+          export CURRENT_VERSION=$(node -pe "require('./packages/graffiti-plugin-auth/package.json').version")
+          export PUBLISHED_VERSION=$(yarn info graffiti-plugin-auth | grep latest | sed "s/[( +?)latest:,\',]//g")
+          if [ "$CURRENT_VERSION" != "$PUBLISHED_VERSION" ]; then yarn workspace graffiti-plugin-auth publish --non-interactive; fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
