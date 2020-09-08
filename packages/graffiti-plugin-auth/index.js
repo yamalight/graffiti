@@ -128,6 +128,9 @@ module.exports = ({
           throw new Error('Token not valid');
         }
 
+        // assign user to request
+        request.user = user;
+
         return true;
       } catch (e) {
         throw new Error('Token not valid');
@@ -206,9 +209,17 @@ module.exports = ({
   });
 
   return {
+    // schemas that should be registered
     schemas,
+    // setup function that adds fastify plugin
     setup: async ({ server }) => {
       await server.register(fastifyPlugin);
+    },
+    // context function that exposes current user to graphql via context
+    context: (request, reply) => {
+      return {
+        user: request.user,
+      };
     },
   };
 };

@@ -65,6 +65,17 @@ const build = async () => {
     schema: graphqlSchema,
     // only enable playground in dev mode
     ...(isProduction ? undefined : playgroundConf),
+    context: (request, reply) => {
+      // apply plugins context functions if available
+      const context = plugins
+        // get new context from plugins
+        .map((plugin) => plugin.context?.(request, reply))
+        // remove empty values
+        .filter((context) => context !== undefined)
+        // reduce to object
+        .reduce((acc, val) => ({ ...acc, ...val }), {});
+      return context;
+    },
   });
   return server;
 };

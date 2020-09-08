@@ -7,7 +7,11 @@ const {
   CREATE_NOTE_QUERY,
   GET_NOTES_QUERY,
 } = require('./fixtures/queries.basic');
-const { GET_USER_QUERY } = require('./fixtures/queries.auth');
+const {
+  GET_USER_QUERY,
+  CREATE_USER_NOTE_QUERY,
+  GET_USER_NOTES_QUERY,
+} = require('./fixtures/queries.auth');
 
 // mock current workdir
 const testPath = path.join(
@@ -31,6 +35,7 @@ let server;
 
 // test data
 const testNote = { name: 'test note', body: 'test note body' };
+const testUserNote = { name: 'test user note', body: 'test user note body' };
 const testUser = { email: 'test@mail.com', password: '123' };
 let token;
 let createdUserId;
@@ -164,5 +169,35 @@ describe('Auth plugin setup', () => {
     expect(items).toHaveLength(1);
     expect(items[0].name).toBe(testNote.name);
     expect(items[0].body).toBe(testNote.body);
+  });
+
+  test('Should create new note for current user with auth', async () => {
+    const {
+      data: { userNoteCreate: note },
+    } = await executeGraphql({
+      server,
+      mutation: CREATE_USER_NOTE_QUERY,
+      variables: { name: testUserNote.name, body: testUserNote.body },
+      token,
+    });
+
+    expect(note.name).toBe(testUserNote.name);
+    expect(note.body).toBe(testUserNote.body);
+    expect(note.user.email).toBe(testUser.email);
+  });
+
+  test('Should get all notes for current user with auth', async () => {
+    const {
+      data: { userNotes: items },
+    } = await executeGraphql({
+      server,
+      query: GET_USER_NOTES_QUERY,
+      token,
+    });
+
+    expect(items).toHaveLength(1);
+    expect(items[0].name).toBe(testUserNote.name);
+    expect(items[0].body).toBe(testUserNote.body);
+    expect(items[0].user.email).toBe(testUser.email);
   });
 });

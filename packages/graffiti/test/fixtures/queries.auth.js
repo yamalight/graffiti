@@ -7,3 +7,31 @@ query GetUser($id:MongoID!) {
   }
 }
 `;
+
+exports.CREATE_USER_NOTE_QUERY = `
+mutation AddUserNote($name:String!, $body:String!) {
+  userNoteCreate(name:$name, body:$body) {
+    _id
+    name
+    body
+    user {
+      _id
+      email
+    }
+  }
+}
+`;
+
+exports.GET_USER_NOTES_QUERY = `
+query GetUserNotes {
+  userNotes {
+    _id
+    name
+    body
+    user {
+      _id
+      email
+    }
+  }
+}
+`;
