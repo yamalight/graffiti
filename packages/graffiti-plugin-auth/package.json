@@ -21,7 +21,7 @@
   "dependencies": {
     "bcrypt": "^5.0.0",
     "fastify-auth": "^1.0.1",
-    "fastify-cookie": "^4.0.2",
+    "fastify-cookie": "^4.1.0",
     "fastify-jwt": "^2.1.3",
     "fastify-plugin": "^2.3.3"
   },
