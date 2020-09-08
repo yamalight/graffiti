@@ -152,5 +152,7 @@ module.exports = {
   // Host for Fastify server to listen on
   // optional, defaults to 0.0.0.0
   host: '0.0.0.0',
+  // Array of plugins you want to use with graffiti
+  plugins: [],
 };
 ```
