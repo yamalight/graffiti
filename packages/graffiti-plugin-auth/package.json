@@ -1,6 +1,6 @@
 {
   "name": "graffiti-plugin-auth",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Authentication plugin for Graffiti framework",
   "repository": "yamalight/graffiti",
   "bugs": "https://github.com/yamalight/graffiti/issues",

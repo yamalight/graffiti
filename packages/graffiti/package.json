@@ -1,6 +1,6 @@
 {
   "name": "graffiti",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Minimalistic GraphQL framework",
   "repository": "yamalight/graffiti",
   "bugs": "https://github.com/yamalight/graffiti/issues",
