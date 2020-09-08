@@ -17,6 +17,13 @@ const fastifyConfig = {
     level: loggingLevel,
   },
 };
+// playground config
+const playgroundConf = {
+  graphiql: 'playground',
+  playgroundSettings: {
+    'request.credentials': 'omit' | 'include' | 'same-origin',
+  },
+};
 
 // Build the server
 const build = async () => {
@@ -57,7 +64,7 @@ const build = async () => {
   await server.register(GQL, {
     schema: graphqlSchema,
     // only enable playground in dev mode
-    graphiql: isProduction ? false : 'playground',
+    ...(isProduction ? undefined : playgroundConf),
   });
   return server;
 };
