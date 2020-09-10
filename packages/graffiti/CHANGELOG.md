@@ -1,3 +1,7 @@
+# 0.8.0 / 2020-09-10
+
+- Allow providing custom nodemon config
+
 # 0.7.0 / 2020-09-08
 
 - Add plugins support

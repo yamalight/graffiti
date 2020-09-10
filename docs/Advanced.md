@@ -114,3 +114,15 @@ exports.compose = ({ schemaComposer, typedef }) => {
 Property `model` your `resolvers` function will receive here is a [Mongoose model](https://mongoosejs.com/docs/models.html) generated from schema definition in current file.
 
 Property `schemaComposer` passed to `compose` function is instance of [SchemaCompose from graphql-compose](https://graphql-compose.github.io/docs/api/SchemaComposer.html), while `typedef` is a [graphql-compose type](https://graphql-compose.github.io/docs/basics/understanding-types.html) generated from Mongoose model created in current file.
+
+## Ignoring files and folders to prevent reloads during development mode
+
+By default Graffiti will use [nodemon](https://github.com/remy/nodemon) in development mode to auto-restart server on file changes.  
+This can lead to undesirable reloads (e.g. when working with Next.js).  
+To change that behaviour you can create a custom `nodemon.json` config that ignores specific files or folders (e.g. `pages/` in case of Next.js):
+
+```json
+{
+  "ignore": [".git", "node_modules", "pages/**/*"]
+}
+```

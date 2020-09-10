@@ -21,11 +21,25 @@ const main = () => {
   // get current workdir
   const currentPath = process.cwd();
 
-  // start nodemon
-  nodemon({
+  // create default nodemon config
+  let nodemonConfig = {
     script: entrypointPath,
+    ignore: ['.git', 'node_modules'],
     ext: 'js',
-  });
+  };
+  // try to read local nodemon config if present
+  const fs = require('fs');
+  const localConfigPath = path.join(currentPath, 'nodemon.json');
+  // if it is present - merge it with default config
+  if (fs.existsSync(localConfigPath)) {
+    nodemonConfig = {
+      ...nodemonConfig,
+      ...require(localConfigPath),
+    };
+  }
+
+  // start nodemon
+  nodemon(nodemonConfig);
 
   // report changes
   nodemon

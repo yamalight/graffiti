@@ -21,6 +21,17 @@ module.exports = {
 };
 ```
 
+## Development mode
+
+By default Graffiti will use [nodemon](https://github.com/remy/nodemon) in development mode to auto-restart server on file changes.  
+This makes Next.js development experience suboptimal. If you wish to use hot reload provided by Next.js, you'll need to create custom `nodemon.json` config that ignores changes to `pages/` folder, e.g.:
+
+```json
+{
+  "ignore": [".git", "node_modules", "pages/**/*"]
+}
+```
+
 ## Building for production
 
 To create Next.js build for production you can either:
