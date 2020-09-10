@@ -1,3 +1,7 @@
+# 1.0.0 / 2020-09-10
+
+- First stable release with complete docs
+
 # 0.8.0 / 2020-09-10
 
 - Allow providing custom nodemon config

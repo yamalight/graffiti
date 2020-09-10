@@ -1,3 +1,7 @@
+# 1.0.0 / 2020-09-10
+
+- First stable release with complete docs
+
 # 0.3.0 / 2020-09-10
 
 - Allow specifying redirect in auth plugin

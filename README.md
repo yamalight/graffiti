@@ -10,7 +10,7 @@ Install it:
 $ npm install graffiti --save
 ```
 
-After that, the file-system is the main API. Every `.js` file becomes a Mongoose schema that gets automatically processed and converted to GraphQL API.
+After that, the file-system is the main API. Every `.js` file becomes a schema definition that gets automatically processed and converted to GraphQL API.
 
 Populate `./schema/note.js` inside your project:
 
@@ -34,7 +34,7 @@ exports.schema = {
 
 and then just run `graffiti dev` and go to `http://localhost:3000/playground`
 
-So far, we get:
+So far, you get:
 
 - Automatic creation of GraphQL APIs
 - Automatic relations between types (when using `ObjectId` as type)
