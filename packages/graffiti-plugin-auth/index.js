@@ -93,6 +93,7 @@ module.exports = ({
 
     // if running in dev mode - add login / register pages
     if (dev) {
+      permitList.push('/_next/');
       permitList.push('/dev/login');
       permitList.push('/dev/register');
     }
@@ -100,7 +101,7 @@ module.exports = ({
     // decorate server with verification method
     fastify.decorate('verifyJWT', async (request, reply) => {
       // if URL is permitted - return true
-      if (permitList.includes(request.url)) {
+      if (permitList.some((pattern) => request.url.match(pattern))) {
         return true;
       }
 
