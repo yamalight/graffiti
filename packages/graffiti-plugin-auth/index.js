@@ -71,6 +71,7 @@ module.exports = ({
     sameSite = false,
   } = {},
   permitPaths = [],
+  redirectPath,
 }) => {
   const hashPass = async (password) => {
     const salt = await bcrypt.genSalt(saltRounds);
@@ -98,6 +99,18 @@ module.exports = ({
       permitList.push('/dev/register');
     }
 
+    // function that either throws an error (for non-text requests)
+    // or redirects user to given URL (if any, for text/html requests)
+    const returnError = (request, reply, errorMessage) => {
+      // if request is coming for HTML and redirect is given - redirect to that URL
+      if (request.headers.accept.includes('text/html') && redirectPath) {
+        reply.redirect(redirectPath);
+        return;
+      }
+
+      throw new Error(errorMessage);
+    };
+
     // decorate server with verification method
     fastify.decorate('verifyJWT', async (request, reply) => {
       // if URL is permitted - return true
@@ -110,7 +123,7 @@ module.exports = ({
         request.cookies['graffiti-token'] ??
         request.raw.headers.authorization?.replace('Bearer ', '');
       if (!token) {
-        throw new Error('Missing token header');
+        return returnError(request, reply, 'Missing auth token!');
       }
 
       try {
@@ -122,11 +135,11 @@ module.exports = ({
         const user = await User.findById(decoded._id).lean();
 
         if (!user) {
-          throw new Error('Token not valid');
+          return returnError(request, reply, 'Token not valid!');
         }
 
         if (user.password !== decoded.password) {
-          throw new Error('Token not valid');
+          return returnError(request, reply, 'Token not valid!');
         }
 
         // assign user to request
@@ -134,7 +147,7 @@ module.exports = ({
 
         return true;
       } catch (e) {
-        throw new Error('Token not valid');
+        return returnError(request, reply, 'Token not valid!');
       }
     });
 

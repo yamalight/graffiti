@@ -21,6 +21,30 @@ module.exports = {
 };
 ```
 
+## Plugin settings
+
+Auth plugin accepts the following options during init:
+
+```js
+authPlugin({
+  // secret used as base for JWT generation and cookies
+  secret,
+  // number of salt rounds used in bcrypt (optional)
+  saltRounds = 10,
+  // cookie settings (optional)
+  cookie: {
+    domain = 'localhost',
+    httpOnly = true,
+    secure = false,
+    sameSite = false,
+  } = {},
+  // additional permit paths that are allowed without auth (optional)
+  permitPaths = [],
+  // redirect path, executed when user requests text/html and is not authed (optional)
+  redirectPath,
+});
+```
+
 ## Dev-mode auth forms
 
 For convenience, when running in development mode, auth plugin creates two pages `/dev/register` and `/dev/login` that allow you to register and login without setting up any front-end.
