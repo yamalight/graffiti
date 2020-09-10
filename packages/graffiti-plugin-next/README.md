@@ -13,7 +13,6 @@ npm install graffiti-plugin-next
 Create a `graffiti.config.js` in your project
 
 ```js
-// next.config.js
 const nextPlugin = require('graffiti-plugin-next');
 
 module.exports = {

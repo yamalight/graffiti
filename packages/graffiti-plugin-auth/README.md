@@ -13,7 +13,6 @@ npm install graffiti-plugin-auth
 Create a `graffiti.config.js` in your project:
 
 ```js
-// next.config.js
 const authPlugin = require('graffiti-plugin-auth');
 
 module.exports = {

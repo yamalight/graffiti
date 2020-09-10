@@ -1,8 +1,6 @@
-# Graffiti.js
+<img alt="Exoframe" src="./logo/svg/splash.svg" width="300">
 
 > Graffiti.js is a minimalistic GraphQL framework
-
-⚠ This project is still under development ⚠
 
 ## How to use
 
@@ -17,6 +15,7 @@ After that, the file-system is the main API. Every `.js` file becomes a Mongoose
 Populate `./schema/note.js` inside your project:
 
 ```js
+// export new Mongoose.js schema definition
 exports.schema = {
   name: String,
   body: String,
@@ -42,17 +41,21 @@ So far, we get:
 - Access to GraphQL playground (in development mode)
 - Way to add manual resolvers or GraphQL methods
 - Way to setup manual complex relations
-- Automatic app reload on schema changes
+- Automatic app reload on schema changes (in development mode)
+- Extensibility via third-party plugins
 
-You can find detailed documentation in [`./docs` folder](./docs/README.md).  
+## How it works
+
+Graffiti.js is built on top of [fastify](https://www.fastify.io/), [graphql-compose](https://graphql-compose.github.io/) and [Mongoose](https://mongoosejs.com/).  
+Graffiti is heavily inspired by awesome [Next.js](https://nextjs.org/) and is mostly there to remove the need to write boilerplate code yourself.
+
+You can find detailed documentation in [`./docs` folder](./docs/README.md).
+
 You can also find more examples in [`./examples` folder](./examples).
-
-## Future directions
-
-The following issues are currently being explored and input from the community is appreciated:
-
-- Support for plugins (e.g. auth, next.js as front-end, etc.) [[#1](https://github.com/yamalight/graffiti/issues/1)]
 
 ## Special thanks
 
-A huge thank you to [Jay Phelps](https://github.com/jayphelps) for releasing the "graffiti" npm package name to me!
+A huge thank you to:
+
+- [Jay Phelps](https://github.com/jayphelps) for releasing the "graffiti" npm package name to me!
+- [Ivan Semenov](https://www.behance.net/ivan_semenov) for making [an awesome logo](./logo/README.md)
