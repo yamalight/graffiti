@@ -1,11 +1,12 @@
 {
   "name": "example-plugin-next",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "",
   "private": "true",
   "scripts": {
     "start": "NODE_ENV=production graffiti",
-    "develop": "graffiti dev"
+    "develop": "graffiti dev",
+    "build": "next build"
   },
   "keywords": [],
   "author": "Tim Ermilov <yamalight@gmail.com> (http://codezen.net)",
@@ -14,6 +15,9 @@
     "graffiti": "*",
     "graffiti-plugin-next": "*",
     "graphql": "^15.3.0",
+    "next": "^9.5.3",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "urql": "^1.10.0"
   }
 }

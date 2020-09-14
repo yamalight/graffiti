@@ -5,8 +5,10 @@ Create Next.js pages with [Graffiti.js](https://github.com/yamalight/graffiti/) 
 ## Installation
 
 ```sh
-npm install graffiti-plugin-next
+npm install graffiti-plugin-next next react react-dom
 ```
+
+Note: Next.js, React and React-DOM are peer dependencies and should be installed along with the plugin.
 
 ## Usage
 
@@ -34,9 +36,7 @@ This makes Next.js development experience suboptimal. If you wish to use hot rel
 
 ## Building for production
 
-To create Next.js build for production you can either:
-
-- execute `next build` manually as usual, e.g.:
+Please remember that to create Next.js build for production you need to execute `next build` manually as usual, e.g.:
 
 ```json
 {
@@ -48,18 +48,10 @@ To create Next.js build for production you can either:
   },
   "dependencies": {
     "graffiti": "*",
-    "graffiti-plugin-next": "*"
+    "graffiti-plugin-next": "*",
+    "next": "*",
+    "react": "*",
+    "react-dom": "*"
   }
 }
-```
-
-- pass `autobuild: true` to plugin to enable autobuilding (this slows down server start-up time quite a bit), e.g.:
-
-```js
-const nextPlugin = require('graffiti-plugin-next');
-
-module.exports = {
-  mongoUrl: 'mongodb://localhost/graffiti',
-  plugins: [nextPlugin({ autobuild: true })],
-};
 ```

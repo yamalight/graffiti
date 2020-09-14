@@ -8,19 +8,21 @@ Schema definition file `schema/note.js` is used to create basic GraphQL endpoint
 Download the example:
 
 ```bash
-curl https://codeload.github.com/yamalight/graffiti/tar.gz/master | tar -xz --strip=2 graffiti-master/examples/basic
-cd basic
+curl https://codeload.github.com/yamalight/graffiti/tar.gz/master | tar -xz --strip=2 graffiti-master/examples/plugin-next
+cd plugin-next
 ```
 
 Install it and run:
 
 ```bash
 npm install
+npm run build
 npm start
 
 # or
 
 yarn
+yarn build
 yarn start
 ```
 

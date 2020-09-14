@@ -1,5 +1,4 @@
 const Next = require('next');
-const { exec } = require('./util');
 
 const dev =
   process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test';
@@ -37,18 +36,9 @@ const fastifyPlugin = async (fastify, opts, next) => {
   next();
 };
 
-module.exports = ({ autobuild = false } = {}) => {
+module.exports = () => {
   return {
     setup: async ({ server }) => {
-      // if running in prod (or in tests) & autobuild is enabled
-      // - execute next build
-      if (!dev && autobuild) {
-        // get workdir to use as next project folder
-        const workDir = process.cwd();
-        // run "next build"
-        await exec('npx', ['next', 'build', workDir]);
-      }
-
       await server.register(fastifyPlugin);
       return server;
     },
