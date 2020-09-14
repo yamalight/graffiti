@@ -2,6 +2,7 @@
 const path = require('path');
 const { build } = require('../lib');
 const { executeGraphql } = require('./helpers/graphql');
+const { exec } = require('./helpers/exec');
 const { CREATE_NOTE_QUERY } = require('./fixtures/queries.basic');
 
 // mock current workdir
@@ -31,6 +32,8 @@ const testNote = { name: 'test note', body: 'test note body' };
 afterAll(() => server?.close());
 
 beforeAll(async () => {
+  // run "next build" in project workdirn
+  await exec({ workdir: testPath, command: 'npx', args: ['next', 'build'] });
   // build new server
   const fastifyServer = await build();
   server = fastifyServer;
