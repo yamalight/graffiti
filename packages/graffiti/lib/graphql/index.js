@@ -5,11 +5,11 @@ const { buildModel } = require('../mongoose');
 const { createGraphQLType } = require('./createType');
 const { createRelations } = require('./createRelations');
 
-exports.buildSchema = async ({ db, plugins }) => {
+exports.buildSchema = async ({ db, plugins, projectConfig }) => {
   // get current work folder
   const workFolder = process.cwd();
   // construct path to schema folder
-  const schemaFolder = join(workFolder, 'schema');
+  const schemaFolder = join(workFolder, projectConfig.basePath);
 
   // create array to hold new models
   const models = [];

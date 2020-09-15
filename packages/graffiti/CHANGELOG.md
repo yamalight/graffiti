@@ -1,3 +1,7 @@
+# 1.1.0 / 2020-09-15
+
+- Allow using custom path for schema folder (via `basePath` config option)
+
 # 1.0.0 / 2020-09-10
 
 - First stable release with complete docs

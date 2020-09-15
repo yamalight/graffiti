@@ -5,6 +5,7 @@ const defaultConfig = {
   mongoUrl: 'mongodb://localhost/graffiti',
   port: 3000,
   host: '0.0.0.0',
+  basePath: 'schema',
 };
 
 exports.getConfig = () => {
@@ -18,5 +19,6 @@ exports.getConfig = () => {
   }
   // otherwise - require and return config
   const config = require(configFilePath);
-  return config;
+  // merge with default config to still have default values
+  return { ...defaultConfig, ...config };
 };

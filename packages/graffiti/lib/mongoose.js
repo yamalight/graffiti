@@ -1,13 +1,10 @@
 const { createConnection, Schema } = require('mongoose');
 const capitalize = require('lodash/capitalize');
-const { getConfig } = require('./config');
 
 // create db connection
-exports.connect = async () => {
-  // load config
-  const config = getConfig();
+exports.connect = async ({ projectConfig }) => {
   // connect to given URL
-  const db = createConnection(config.mongoUrl, {
+  const db = createConnection(projectConfig.mongoUrl, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,

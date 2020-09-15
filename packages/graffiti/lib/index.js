@@ -27,12 +27,14 @@ const playgroundConf = {
 
 // Build the server
 const build = async () => {
+  // get config for settings
+  const projectConfig = getConfig();
   // connect to db
-  const db = await connect();
+  const db = await connect({ projectConfig });
   // create fastify instance
   const server = fastify(fastifyConfig);
   // load plugins
-  const plugins = await loadPlugins();
+  const plugins = await loadPlugins({ projectConfig });
   // create graphql schema
   const {
     graphqlSchema,
@@ -42,6 +44,7 @@ const build = async () => {
   } = await buildSchema({
     db,
     plugins,
+    projectConfig,
   });
   // expose newly constructed typedefs, models and composer using fastify
   server.decorate('graffiti', {
@@ -84,11 +87,11 @@ exports.build = build;
 // Run the server
 exports.start = async () => {
   try {
-    // get config for host-port settings
-    const config = getConfig();
     // create graphql server
     const instance = await build();
-    await instance.listen(config.port ?? 3000, config.host ?? '0.0.0.0');
+    // get config for host-port settings
+    const config = getConfig();
+    await instance.listen(config.port, config.host);
     // log port
     console.log(`Graffiti started on ${instance.server.address().port}`);
   } catch (err) {

@@ -43,5 +43,8 @@ module.exports = {
   host: '0.0.0.0',
   // Array of plugins you want to use with graffiti
   plugins: [],
+  // Path to folder with your Mongoose models
+  // optional, defaults to "./schema"
+  basePath: 'schema',
 };
 ```
