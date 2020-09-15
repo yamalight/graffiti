@@ -1,4 +1,4 @@
-# Basic example
+# Next.js plugin example
 
 This example shows the most basic idea behind Graffiti with Next.js plugin.
 Schema definition file `schema/note.js` is used to create basic GraphQL endpoint with Notes schema and simple Next.js front-end.

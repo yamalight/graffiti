@@ -1,4 +1,4 @@
-# Basic example
+# Auth plugin example
 
 This example shows the most basic idea behind auth plugin Graffiti.
 Schema definition file `schema/note.js` is used to create basic GraphQL endpoint with Notes schema protected by simple user-password auth.
