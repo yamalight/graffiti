@@ -21,7 +21,7 @@ const fastifyConfig = {
 const playgroundConf = {
   graphiql: 'playground',
   playgroundSettings: {
-    'request.credentials': 'omit' | 'include' | 'same-origin',
+    'request.credentials': 'include',
   },
 };
 
