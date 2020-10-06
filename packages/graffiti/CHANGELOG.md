@@ -1,3 +1,7 @@
+# 1.1.2 / 2020-10-06
+
+- Replace fastify-gql with mercurius (was renamed)
+
 # 1.1.1 / 2020-09-16
 
 - Fix playground credentials setting

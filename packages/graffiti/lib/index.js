@@ -1,5 +1,5 @@
 const fastify = require('fastify');
-const GQL = require('fastify-gql');
+const GQL = require('mercurius');
 const { buildSchema } = require('./graphql');
 const { loadPlugins } = require('./plugins');
 const { connect } = require('./mongoose');
