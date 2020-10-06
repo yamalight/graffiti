@@ -44,6 +44,13 @@ So far, you get:
 - Automatic app reload on schema changes (in development mode)
 - Extensibility via third-party plugins
 
+## Requirements
+
+Graffiti assumes you have:
+
+- MongoDB v4.0+ (easiest way is to start one using docker: `docker run --name mongodb -p 27017:27017 -d mongo`)
+- Node.js v14.8+
+
 ## How it works
 
 Graffiti.js is built on top of [fastify](https://www.fastify.io/), [graphql-compose](https://graphql-compose.github.io/) and [Mongoose](https://mongoosejs.com/).  

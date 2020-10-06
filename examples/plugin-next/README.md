@@ -16,12 +16,15 @@ Install it and run:
 
 ```bash
 npm install
+# if you don't have mongo - there's an npm script to start one using docker
+npm run mongo
 npm run build
 npm start
 
 # or
 
 yarn
+yarn mongo
 yarn build
 yarn start
 ```

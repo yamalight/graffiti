@@ -6,7 +6,8 @@
   "scripts": {
     "start": "NODE_ENV=production graffiti",
     "develop": "graffiti dev",
-    "build": "next build"
+    "build": "next build",
+    "mongo": "docker run --name mongodb -p 27017:27017 -d mongo"
   },
   "keywords": [],
   "author": "Tim Ermilov <yamalight@gmail.com> (http://codezen.net)",
@@ -19,5 +20,8 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "urql": "^1.10.0"
+  },
+  "engines": {
+    "node": ">=14.8.0"
   }
 }

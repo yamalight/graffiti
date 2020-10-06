@@ -5,7 +5,8 @@
   "private": "true",
   "scripts": {
     "start": "graffiti",
-    "develop": "graffiti dev"
+    "develop": "graffiti dev",
+    "mongo": "docker run --name mongodb -p 27017:27017 -d mongo"
   },
   "keywords": [],
   "author": "Tim Ermilov <yamalight@gmail.com> (http://codezen.net)",
@@ -13,5 +14,8 @@
   "dependencies": {
     "graffiti": "*",
     "graffiti-plugin-auth": "*"
+  },
+  "engines": {
+    "node": ">=14.8.0"
   }
 }
